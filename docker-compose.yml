@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+   app:
+     build:
+      context: .
+      dockerfile: ./Dockerfile
+     ports:
+      - '8888:8888'
+     tty: true
+     user: root
+     volumes:
+      - ./work:/home/jovyan/work
+      - ./cron:/var/spool/cron
+     environment:
+      - GRANT_SUDO=yes
+     command: >
+      bash -c "sudo service cron start &&
+      start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''"
